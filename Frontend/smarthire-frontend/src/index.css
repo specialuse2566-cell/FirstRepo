@@ -1,0 +1,35 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --ink: #1a1a1a;
+  --white: #fafaf8;
+  --light: #f0efeb;
+  --border: #e2e1dd;
+  --muted: #6b6b6b;
+  --success: #16a34a;
+  --error: #dc2626;
+  --font-serif: 'DM Serif Display', Georgia, serif;
+  --font-sans: 'DM Sans', sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--white);
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+a { text-decoration: none; color: inherit; }
+
+button { cursor: pointer; font-family: var(--font-sans); }
+
+input, textarea, select {
+  font-family: var(--font-sans);
+  outline: none;
+}
