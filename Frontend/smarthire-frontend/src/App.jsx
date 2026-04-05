@@ -6,6 +6,10 @@ import CandidateDashboard from './pages/CandidateDashboard'
 import RecruiterDashboard from './pages/RecruiterDashboard'
 import Landing from './pages/Landing'
 
+function roleHome(role) {
+  return role === 'RECRUITER' ? '/recruiter' : '/candidate';
+}
+
 function ProtectedRoute({ children, requiredRole }) {
   const { user } = useAuth();
   if (!user) return <Navigate to="/login" />;
@@ -13,12 +17,28 @@ function ProtectedRoute({ children, requiredRole }) {
   return children;
 }
 
+function PublicRoute({ children }) {
+  const { user } = useAuth();
+  if (user) {
+    return <Navigate to={roleHome(user.role)} />;
+  }
+  return children;
+}
+
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Landing />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+      <Route path="/login" element={
+        <PublicRoute>
+          <Login />
+        </PublicRoute>
+      } />
+      <Route path="/register" element={
+        <PublicRoute>
+          <Register />
+        </PublicRoute>
+      } />
       <Route path="/candidate" element={
         <ProtectedRoute requiredRole="CANDIDATE">
           <CandidateDashboard />

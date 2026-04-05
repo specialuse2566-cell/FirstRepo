@@ -1,15 +1,27 @@
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function Landing() {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const dashboardPath = user?.role === 'RECRUITER' ? '/recruiter' : '/candidate';
 
   return (
     <div style={styles.container}>
       <nav style={styles.nav}>
         <h1 style={styles.logo}>Smart<span style={styles.accent}>Hire</span></h1>
         <div style={styles.navLinks}>
-          <button style={styles.ghost} onClick={() => navigate('/login')}>Sign in</button>
-          <button style={styles.primary} onClick={() => navigate('/register')}>Get started</button>
+          {user ? (
+            <>
+              <button style={styles.ghost} onClick={() => navigate(dashboardPath)}>Open workspace</button>
+              <button style={styles.primary} onClick={() => navigate(dashboardPath)}>Go to dashboard</button>
+            </>
+          ) : (
+            <>
+              <button style={styles.ghost} onClick={() => navigate('/login')}>Sign in</button>
+              <button style={styles.primary} onClick={() => navigate('/register')}>Get started</button>
+            </>
+          )}
         </div>
       </nav>
 
@@ -18,8 +30,12 @@ export default function Landing() {
         <h1 style={styles.heroTitle}>Land the job you <em style={styles.em}>actually</em> want.</h1>
         <p style={styles.heroSub}>Practice with an AI interviewer, get instant feedback on your resume, and connect with companies that match your skills.</p>
         <div style={styles.heroActions}>
-          <button style={styles.btnLarge} onClick={() => navigate('/register')}>Start practicing free</button>
-          <button style={styles.btnOutline} onClick={() => navigate('/login')}>Sign in</button>
+          <button style={styles.btnLarge} onClick={() => navigate(user ? dashboardPath : '/register')}>
+            {user ? 'Open your workspace' : 'Start practicing free'}
+          </button>
+          <button style={styles.btnOutline} onClick={() => navigate(user ? dashboardPath : '/login')}>
+            {user ? 'Go to dashboard' : 'Sign in'}
+          </button>
         </div>
         <div style={styles.stats}>
           <div style={styles.stat}><span style={styles.statNum}>94%</span><span style={styles.statLabel}>Interview success rate</span></div>

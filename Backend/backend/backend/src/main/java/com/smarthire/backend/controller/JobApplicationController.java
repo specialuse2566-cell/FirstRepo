@@ -38,6 +38,16 @@ public class JobApplicationController {
         return jobApplicationService.getApplicationsByJob(jobId);
     }
 
+    @GetMapping("/recruiter/{email}")
+    public List<JobApplication> getApplicationsByRecruiter(@PathVariable String email) {
+        return jobApplicationService.getApplicationsByRecruiter(email);
+    }
+
+    @GetMapping("/recruiter/{email}/hired")
+    public List<JobApplication> getHiredApplicationsByRecruiter(@PathVariable String email) {
+        return jobApplicationService.getHiredApplicationsByRecruiter(email);
+    }
+
     @PutMapping("/status/{id}")
     public String updateStatus(
             @PathVariable String id,

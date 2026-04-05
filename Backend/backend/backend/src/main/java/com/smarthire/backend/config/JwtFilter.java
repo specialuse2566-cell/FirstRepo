@@ -3,6 +3,7 @@ package com.smarthire.backend.config;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -25,7 +26,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String path = request.getRequestURI();
 
-        if (path.startsWith("/api/auth/")) {
+        if (HttpMethod.OPTIONS.matches(request.getMethod()) || path.startsWith("/api/auth/")) {
             filterChain.doFilter(request, response);
             return;
         }

@@ -11,5 +11,7 @@ import com.smarthire.backend.model.JobApplication;
 public interface JobApplicationRepository extends MongoRepository<JobApplication, String> {
     List<JobApplication> findByCandidateEmail(String email);
     List<JobApplication> findByJobId(String jobId);
+    List<JobApplication> findByJobIdIn(List<String> jobIds);
+    List<JobApplication> findByJobIdInAndStatus(List<String> jobIds, String status);
     boolean existsByCandidateEmailAndJobId(String email, String jobId);
 }

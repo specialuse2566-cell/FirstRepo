@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.smarthire.backend.dto.InterviewRequest;
+import com.smarthire.backend.dto.InterviewResponseRequest;
 import com.smarthire.backend.model.Interview;
 import com.smarthire.backend.service.InterviewService;
 
@@ -31,9 +33,21 @@ public class InterviewController {
         return interviewService.getInterviewsByCandidate(email);
     }
 
+    @GetMapping("/recruiter/{email}")
+    public List<Interview> getInterviewsByRecruiter(@PathVariable String email) {
+        return interviewService.getInterviewsByRecruiter(email);
+    }
+
     @GetMapping("/{id}")
     public Interview getInterviewById(@PathVariable String id) {
         return interviewService.getInterviewById(id);
+    }
+
+    @PutMapping("/respond/{id}")
+    public Interview respondToInterview(
+            @PathVariable String id,
+            @RequestBody InterviewResponseRequest request) {
+        return interviewService.respondToInterview(id, request);
     }
 
     @PostMapping("/complete/{id}")

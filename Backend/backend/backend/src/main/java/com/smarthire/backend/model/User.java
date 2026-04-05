@@ -1,5 +1,7 @@
 package com.smarthire.backend.model;
 
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -28,6 +30,13 @@ public class User {
     private String role; // CANDIDATE or RECRUITER
 
     private String companyName; // only for RECRUITER
+    private String phone;
+    private String location;
+    private String headline;
+    private String bio;
+    private String avatarImageData;
+    private List<String> skills;
+    private Integer experienceYears;
 
     private boolean enabled = true;
 }

@@ -10,6 +10,7 @@ import com.smarthire.backend.model.Interview;
 @Repository
 public interface InterviewRepository extends MongoRepository<Interview, String> {
     List<Interview> findByCandidateEmail(String email);
+    List<Interview> findByRecruiterEmail(String email);
     List<Interview> findByJobId(String jobId);
     List<Interview> findByStatus(String status);
 }

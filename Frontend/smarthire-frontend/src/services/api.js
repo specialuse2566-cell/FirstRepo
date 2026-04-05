@@ -17,6 +17,23 @@ api.interceptors.request.use((config) => {
     return config;
 });
 
+api.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response?.status === 401) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('email');
+            localStorage.removeItem('role');
+
+            if (window.location.pathname !== '/login') {
+                window.location.href = '/login';
+            }
+        }
+
+        return Promise.reject(error);
+    }
+);
+
 export const authAPI = {
     register: (data) => api.post('/auth/register', data),
     login: (data) => api.post('/auth/login', data),
@@ -34,6 +51,8 @@ export const interviewAPI = {
     scheduleInterview: (data) => api.post('/interviews/schedule', data),
     getInterviewById: (id) => api.get(`/interviews/${id}`),
     getInterviewsByCandidate: (email) => api.get(`/interviews/candidate/${email}`),
+    getInterviewsByRecruiter: (email) => api.get(`/interviews/recruiter/${email}`),
+    respondToInterview: (id, data) => api.put(`/interviews/respond/${id}`, data),
     completeInterview: (id, answers) => api.post(`/interviews/complete/${id}`, answers),
 };
 
@@ -41,7 +60,14 @@ export const applicationAPI = {
     applyForJob: (data) => api.post('/applications/apply', data),
     getApplicationsByCandidate: (email) => api.get(`/applications/candidate/${email}`),
     getApplicationsByJob: (jobId) => api.get(`/applications/job/${jobId}`),
+    getApplicationsByRecruiter: (email) => api.get(`/applications/recruiter/${email}`),
+    getHiredApplicationsByRecruiter: (email) => api.get(`/applications/recruiter/${email}/hired`),
     updateStatus: (id, status) => api.put(`/applications/status/${id}?status=${status}`),
+};
+
+export const usersAPI = {
+    getProfile: (email) => api.get(`/users/profile/${email}`),
+    updateProfile: (email, data) => api.put(`/users/profile/${email}`, data),
 };
 
 export default api;
